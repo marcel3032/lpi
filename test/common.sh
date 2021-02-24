@@ -20,15 +20,15 @@ changedInPr() {
 }
 
 runTest_python() {
-	cd python && ./*Test.py
+	cd "$1" && ./*Test.py
 }
 
 runTest_java() {
-	cd java && gradle --console plain --quiet run
+	cd "$1" && gradle --console plain --quiet run
 }
 
 runTest_cpp() {
-	cd cpp && mkdir -p build && cd build && cmake .. && cmake --build . --target run
+	cd "$1" && mkdir -p build && cd build && cmake .. && cmake --build . --target run
 }
 
 testLangsDefault() {
@@ -41,12 +41,16 @@ runTestsForChanged() {
 	for d in $(changedInPr "$@") ; do
 		echo
 		msg "Našiel som zmeny v $d riešení"
+		lang="${d##*-}"
+		task="${d%-*}"
 		haveTest=true
-		local run="runTest_$d"
+		local run="runTest_$lang"
+
+		echo "lang $lang task $task run $run"
 		[[ $(type -t "${run}") == "function" ]] || die "Neviem ako testovať $d"
 		msg "Testujem $d"
 		echo
-		if ( ${run} ) ; then
+		if ( ${run} "$d" ) ; then
 			echo
 			msg "$d ${clLtGreen}OK${clNorm}"
 		else
