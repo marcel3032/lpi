@@ -2,12 +2,16 @@ import java.lang.RuntimeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class AtomWrap {
     AtomicFormula atom;
@@ -225,6 +229,7 @@ public class CnfTest {
     static Implication Impl(Formula l, Formula r) { return new Implication(l, r); }
     static Equivalence Eq(Formula l, Formula r) { return new Equivalence(l, r); }
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         CnfTest ct = new CnfTest();
 
@@ -308,6 +313,49 @@ public class CnfTest {
                 Or(a,Impl(b,a))
             )
         );
+
+        {
+            Formula args1[] = {
+                a, Impl(a,a), And(a,Not(a)), And()
+            };
+            Formula args2[] = {
+                a, b, Or(b,Not(b)), Eq(b,b), Or()
+            };
+            Iterable<Formula> args3 = (Iterable<Formula>)
+                Stream.concat(Arrays.stream(args1), Arrays.stream(args2))
+                    ::iterator;
+            UnaryOperator<Formula>[] posnegs =
+                (UnaryOperator<Formula>[]) new UnaryOperator[] {
+                    UnaryOperator.identity(),
+                    (UnaryOperator<Formula>) CnfTest::Not,
+                };
+            BinaryOperator<Formula>[] cons =
+                (BinaryOperator<Formula>[]) new BinaryOperator[] {
+                    (BinaryOperator<Formula>) CnfTest::And,
+                    (BinaryOperator<Formula>) CnfTest::Or,
+                    (BinaryOperator<Formula>) CnfTest::Impl,
+                    (BinaryOperator<Formula>) CnfTest::Eq,
+                };
+            for (Formula x: args3) {
+                for (UnaryOperator<Formula> pnx: posnegs) {
+                    ct.test(pnx.apply(x));
+                    ct.test(pnx.apply(Not(x)));
+                }
+            }
+            for (BinaryOperator<Formula> con: cons) {
+                for (Formula x: args1) {
+                    for (Formula y: args2) {
+                        for (UnaryOperator<Formula> pn: posnegs) {
+                            for (UnaryOperator<Formula> pnx: posnegs) {
+                                for (UnaryOperator<Formula> pny: posnegs) {
+                                    ct.test(pn.apply(con.apply(pnx.apply(x), pny.apply(y))));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         {
             int N = 17;
