@@ -26,6 +26,6 @@ Ak si toto pozeráte vo svojom repozitári, funguje nasledujúci odkaz:
 | 2 | [Výrokovologické spojky](prednasky/pr02.pdf) | [Výrokovologické spojky](teoreticke/tu02.pdf) | [Sudoku](prakticke/pu02) |
 | 3 | [Výrokovologické vyplývanie](prednasky/pr03.pdf) | [Výrokovologické vyplývanie](teoreticke/tu03.pdf) | [Formula](prakticke/pu03) |
 | 4 | [Vlastnosti a vzťahy formúl](prednasky/pr04.pdf) | [Vlastnosti a vzťahy formúl](teoreticke/tu04.pdf) | [NNF a CNF](prakticke/pu04) |
-| 5 | [Dôkazy a výrokovologické tablá](prednasky/pr05.pdf) | [Výrokovologické tablá](teoreticke/tu05.pdf) | |
+| 5 | [Dôkazy a výrokovologické tablá](prednasky/pr05.pdf) | [Výrokovologické tablá](teoreticke/tu05.pdf) | [Tableau](prakticke/pu05) |
 
 [Pravidlá pre úlohy](http://dai.fmph.uniba.sk/w/Course:Mathematics_4/sk#pravidla-uloh).
