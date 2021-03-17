@@ -18,7 +18,7 @@ Implementujte _tablové pravidlá_.
 
 Vaše riešenie sa má skladať z dvoch častí:
 
-1. Do tried na reprezentáciu formúl z cvičenia 2 doimplementujte
+1. Do tried na reprezentáciu formúl z cvičenia 3 doimplementujte
    metódy `signedSubf` a `signedType`, ktoré reprezentujú informácie
    o tablových pravidlách pre jednotlivé typy formúl.
 2. Do triedy `Tableau` doimplementujte:
